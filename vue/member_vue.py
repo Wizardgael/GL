@@ -1,5 +1,5 @@
 from vue.common import Common
-
+from exceptions import ResourceNotFound, Error, InvalidData
 
 class MemberVue:
     """
@@ -24,8 +24,8 @@ class MemberVue:
 
     def show_member(self, member: dict):
         print("Member profile: ")
-        print(member['firstname'].capitalize(), member['lastname'].capitalize())
-        print("email:", member['email'])
+        print("\t",member['firstname'].capitalize(), member['lastname'].capitalize())
+        print("\temail:", member['email'])
 
     def error_message(self, message: str):
         print("/!\\ %s" % message.upper())
@@ -39,9 +39,10 @@ class MemberVue:
 
         print("Members: ")
         for member in members:
-            print("* %s %s (%s)" % (member['firstname'].capitalize(),
+            print("* %s %s (%s) : %s" % (member['firstname'].capitalize(),
                                     member['lastname'].capitalize(),
-                                    member['email']))
+                                    member['email'], member['sports']))
+
 
     def search_member(self):
         firstname = self._common.ask_name('firstname')
@@ -64,3 +65,10 @@ class MemberVue:
         member = self.search_member()
         self._member_controller.delete_member(member['id'])
         self.succes_message()
+        return
+    
+    def add_sport_to_member(self):
+        member = self.search_member()
+        sport = self._common.ask_name(key_name="name")
+        self._member_controller.add_sport(member, sport)
+        return

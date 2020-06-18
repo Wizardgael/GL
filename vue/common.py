@@ -12,14 +12,14 @@ class Common:
         if default is not None and string == "":
             return default
         if regex is not None:
-            pattern = re.compile("^[\S-]{2,50}$")
+            pattern = re.compile("^[\S-]{2,}$")
             while not pattern.match(string):
                 print("/!\\ Error input malformed")
                 string = input(message)
         return string
 
     def ask_name(self, key_name="name", default=None):
-        return self.ask(key_name=key_name, regex="^[\S-']{2,50}$", default=default).lower()
+        return self.ask(key_name=key_name, regex="^[\S-']{2,}$", default=default).lower()
 
     def ask_email(self, default=None):
         return self.ask(key_name="email", regex=None, default=default)

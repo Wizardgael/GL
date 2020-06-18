@@ -1,8 +1,9 @@
 from model.mapping import Base
+from sqlalchemy.orm import relationship
 import uuid
 
-from sqlalchemy import Column, String, UniqueConstraint
-
+from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Table
+from model.mapping.sport import association_table
 
 class Member(Base):
     __tablename__ = 'members'
@@ -15,6 +16,11 @@ class Member(Base):
 
     email = Column(String(256), nullable=False)
 
+    sports = relationship(
+        "Sport",
+        secondary=association_table,
+        back_populates="members")
+
     def __repr__(self):
         return "<Member(%s %s)>" % (self.firstname, self.lastname.upper())
 
@@ -23,5 +29,12 @@ class Member(Base):
             "id": self.id,
             "firstname": self.firstname,
             "lastname": self.lastname,
-            "email": self.email
+            "email": self.email,
+            "sports": self.get_sports()
         }
+
+    def get_sports(self):
+        l = []
+        for sport in self.sports:
+            l.append(sport.to_dict()['name'])
+        return l

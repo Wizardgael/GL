@@ -9,9 +9,11 @@ class MemberController:
     Member actions
     """
 
-    def __init__(self, database_engine):
+    def __init__(self, database_engine, sport_controller = None):
         self._database_engine = database_engine
         self._frames = []
+        if sport_controller is not None:
+            self.sport_controller = sport_controller
 
     def list_members(self):
 
@@ -99,3 +101,13 @@ class MemberController:
                 raise InvalidData("Invalid type %s" % mandatory)
             if "regex" in specs and isinstance(value, str) and not re.match(specs["regex"], value):
                 raise InvalidData("Invalid value %s" % mandatory)
+    
+    def add_sport(self, member, sport_name):
+        data = {}
+        data['firstname'] = member['firstname']
+        data['lastname'] = member['lastname']
+        data['email'] = member['email']
+        sport = self.sport_controller.search_sport(sport_name)
+        data['sport'] = sport
+        self.update_member(member['id'], data)
+        return

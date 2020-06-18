@@ -1,7 +1,7 @@
 
 from model.database import DatabaseEngine
 from controller.member_controller import MemberController
-from vue.admin_vue import AdminVue
+from vue.user_vue import UserVue
 from exceptions import Error
 
 
@@ -11,14 +11,8 @@ def main():
     # Init db
     database_engine = DatabaseEngine(url='sqlite:///bds.db')
     database_engine.create_database()
-    member_controller = MemberController(database_engine)
-    admin_vue = AdminVue(member_controller)
-
-    try:
-        member = admin_vue.add_member()
-        admin_vue.show_member(member)
-    except Error as e:
-        admin_vue.error_message(str(e))
+    admin_controller = MemberController(database_engine)
+    UserVue(admin_controller).user_shell()
 
 
 if __name__ == "__main__":
