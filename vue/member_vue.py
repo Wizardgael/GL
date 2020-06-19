@@ -10,6 +10,7 @@ class MemberVue:
     def __init__(self, member_controller):
         self._common = Common()
         self._member_controller = member_controller
+        self.member = None
 
     def add_member(self):
         # Show subscription formular
@@ -24,8 +25,13 @@ class MemberVue:
 
     def show_member(self, member: dict):
         print("Member profile: ")
-        print("\t",member['firstname'].capitalize(), member['lastname'].capitalize())
+        print("\t" + member['firstname'].capitalize(), member['lastname'].capitalize())
         print("\temail:", member['email'])
+        print("\tsport ", member['sports'])
+        s = "No"
+        if member['coach']:
+                s = "Yes sport coached %s" %(member['coached'])
+        print("\tis coach", s)
 
     def error_message(self, message: str):
         print("/!\\ %s" % message.upper())
@@ -42,9 +48,17 @@ class MemberVue:
             s = "No"
             if member['coach']:
                 s = "Yes"
-            print("* %s %s (%s) : %s coach:%s" % (member['firstname'].capitalize(),
-                                    member['lastname'].capitalize(),
-                                    member['email'], member['sports'], s))
+            c = ""
+            if member['coached'].__len__() > 0:
+                c = "sport coached:["
+                for i in member['coached']:
+                    c+= i
+                    if(member['coached'].index(i) < member['coached'].__len__()-1):
+                        c += ", "
+                c += "]"
+            print("* %s %s (%s)\n\tsport:%s\n\tcoach:%s %s" % (member['firstname'].capitalize(),
+                                                  member['lastname'].capitalize(),
+                                                  member['email'], member['sports'], s, c))
 
 
     def search_member(self):
@@ -63,6 +77,18 @@ class MemberVue:
         data['email'] = self._common.ask_email(default=member['email'])
         print()
         return self._member_controller.update_member(member['id'], data)
+    
+    def update_self_member(self):
+        member = self.member
+        data = {}
+        print("Update Member")
+        print()
+        data['firstname'] = self._common.ask_name(key_name="firstname", default=member['firstname'])
+        data['lastname'] = self._common.ask_name(key_name="lastname", default=member['lastname'])
+        data['email'] = self._common.ask_email(default=member['email'])
+        print()
+        self.member = self._member_controller.update_member(member['id'], data)
+        return self.member
 
     def delete_member(self):
         member = self.search_member()
@@ -76,8 +102,30 @@ class MemberVue:
         self._member_controller.add_sport(member, sport)
         return
 
+    def remove_sport_to_member(self):
+        member = self.search_member()
+        sport = self._common.ask_name(key_name="sport name")
+        self._member_controller.remove_sport(member, sport)
+        return
+
     def add_coach_to_sport(self):
         sport = self._common.ask_name(key_name="sport name")
         member = self.search_member()
         self._member_controller.add_coach(member, sport)
+        return
+    
+    def remove_coach_to_sport(self):
+        sport = self._common.ask_name(key_name="sport name")
+        member = self.search_member()
+        self._member_controller.remove_coach(member, sport)
+        return
+    
+    def add_self_sport(self):
+        sport = self._common.ask_name(key_name="sport name")
+        self._member_controller.add_sport(self.member, sport)
+        return
+
+    def remove_self_sport(self):
+        sport = self._common.ask_name(key_name="sport name")
+        self._member_controller.remove_sport(self.member, sport)
         return

@@ -13,7 +13,7 @@ def main():
     database_engine.create_database()
     sport_controller = SportController(database_engine)
     admin_controller = MemberController(database_engine, sport_controller)
-    AdminVue(admin_controller, sport_controller).admin_shell()
+    AdminVue(admin_controller, sport_controller).start()
     
 
 if __name__ == "__main__":

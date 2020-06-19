@@ -36,7 +36,7 @@ class MemberDAO(DAO):
 
     def create(self, data: dict):
         try:
-            member = Member(firstname=data.get('firstname'), lastname=data.get('lastname'), email=data.get('email'))
+            member = Member(firstname=data.get('firstname'), lastname=data.get('lastname'), email=data.get('email'), admin=0)
             self._database_session.add(member)
             self._database_session.flush()
         except IntegrityError:
@@ -52,6 +52,51 @@ class MemberDAO(DAO):
             member.email = data['email']
         if 'sport' in data:
             member.sports.append(data['sport'])
+        if 'coach' in data:
+            member.coached.append(data['coach'])
+        try:
+            self._database_session.merge(member)
+            self._database_session.flush()
+        except IntegrityError:
+            raise Error("Error data may be malformed")
+        return member
+    
+    def update_remove_sport(self, member: Member, data: dict):
+        if 'firstname' in data:
+            member.firstname = data['firstname']
+        if 'lastname' in data:
+            member.lastname = data['lastname']
+        if 'email' in data:
+            member.email = data['email']
+        if 'sport' in data:
+            #member.sports.remove(data['sport'])
+            s = None
+            for sport in member.sports:
+                if sport.name == data['sport']['name']:
+                    s = sport
+            if s is not None:
+                member.sports.remove(s)
+        try:
+            self._database_session.merge(member)
+            self._database_session.flush()
+        except IntegrityError:
+            raise Error("Error data may be malformed")
+        return member
+    
+    def update_remove_coach(self, member: Member, data: dict):
+        if 'firstname' in data:
+            member.firstname = data['firstname']
+        if 'lastname' in data:
+            member.lastname = data['lastname']
+        if 'email' in data:
+            member.email = data['email']
+        if 'coach' in data:
+            s = None
+            for sport in member.coached:
+                if sport.name == data['coach']['name']:
+                    s = sport
+            if s is not None:
+                member.coached.remove(s)
         try:
             self._database_session.merge(member)
             self._database_session.flush()

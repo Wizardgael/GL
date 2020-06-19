@@ -111,6 +111,24 @@ class MemberController:
         data['sport'] = sport['self']
         self.update_member(member['id'], data)
         return
+    
+    def remove_sport(self, member, sport_name):
+        data = {}
+        data['firstname'] = member['firstname']
+        data['lastname'] = member['lastname']
+        data['email'] = member['email']
+        sport = self.sport_controller.search_sport(sport_name)
+        data['sport'] = sport
+        self.update_member_remove_sport(member['id'], data)
+        return
+
+    def update_member_remove_sport(self, member_id, member_data):
+        self._check_profile_data(member_data, update=True)
+        with self._database_engine.new_session() as session:
+            member_dao = MemberDAO(session)
+            member = member_dao.get(member_id)
+            member = member_dao.update_remove_sport(member, member_data)
+            return member.to_dict()
 
     def add_coach(self, member, sport_name):
         data = {}
@@ -118,6 +136,24 @@ class MemberController:
         data['lastname'] = member['lastname']
         data['email'] = member['email']
         sport = self.sport_controller.search_sport(sport_name)
-        data['sport'] = sport['self']
+        data['coach'] = sport['self']
         self.update_member(member['id'], data)
         return
+    
+    def remove_coach(self, member, sport_name):
+        data = {}
+        data['firstname'] = member['firstname']
+        data['lastname'] = member['lastname']
+        data['email'] = member['email']
+        sport = self.sport_controller.search_sport(sport_name)
+        data['coach'] = sport
+        self.update_member_remove_coach(member['id'], data)
+        return
+
+    def update_member_remove_coach(self, member_id, member_data):
+        self._check_profile_data(member_data, update=True)
+        with self._database_engine.new_session() as session:
+            member_dao = MemberDAO(session)
+            member = member_dao.get(member_id)
+            member = member_dao.update_remove_coach(member, member_data)
+            return member.to_dict()

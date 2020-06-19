@@ -14,7 +14,6 @@ class AdminVue(MemberVue, Sportvue):
     def __init__(self, member_controller, sport_controller):
         MemberVue.__init__(self, member_controller)
         Sportvue.__init__(self, sport_controller)
-        self.member = None
 
     def help(self, commands):
         print()
@@ -34,9 +33,9 @@ class AdminVue(MemberVue, Sportvue):
     def start(self):
         self.member = self.connexion()
         if(self.member['admin']):
-            print("admin")
+            self.admin_shell()
         else:
-            print("pas admin")
+            self.user_shell()
         return
 
     def connexion(self):     
@@ -56,7 +55,9 @@ class AdminVue(MemberVue, Sportvue):
             "update sport": "Update sport",
             "delete sport": "delete sport",
             "user add sport": "add sport to user",
+            "user remove sport": "add sport to user",
             "sport add coach": "add sport to user",
+            "sport remove coach": "add sport to user",
             "help": "Show this help"
         }
 
@@ -68,6 +69,10 @@ class AdminVue(MemberVue, Sportvue):
                 if command == 'exit':
                     # Exit loop
                     break
+                elif command == 'user remove sport':
+                    self.remove_sport_to_member()
+                elif command == 'sport remove coach':
+                    self.remove_coach_to_sport()
                 elif command == 'add':
                     member = self.add_member()
                     self.show_member(member)
@@ -124,14 +129,13 @@ class AdminVue(MemberVue, Sportvue):
                     # Exit loop
                     break
                 elif command == 'profile':
-                    print("truc")
+                    self.show_member(self.member)
                 elif command == 'add sport':
-                    self.show_members()
+                    self.add_self_sport()
                 elif command == 'remove sport':
-                    member = self.search_member()
-                    self.show_member(member)
+                    self.remove_self_sport()
                 elif command == 'update profile':
-                    self.delete_member()
+                    self.update_self_member()
                 elif command == 'help':
                     self.help(commands)
                 else:
