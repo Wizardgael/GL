@@ -55,9 +55,9 @@ class AdminVue(MemberVue, Sportvue):
             "update sport": "Update sport",
             "delete sport": "delete sport",
             "user add sport": "add sport to user",
-            "user remove sport": "add sport to user",
-            "sport add coach": "add sport to user",
-            "sport remove coach": "add sport to user",
+            "user remove sport": "remove sport to user",
+            "sport add coach": "add coach to sport",
+            "sport remove coach": "remove coach to sport",
             "help": "Show this help"
         }
 
@@ -114,9 +114,9 @@ class AdminVue(MemberVue, Sportvue):
         commands = {
             "exit": "Quit the Shell",
             "profile": "show profile member",
-            "add sport": "List association members",
-            "remove sport": "Show member profile",
-            "update profile": "Delete a member",
+            "add sport": "register user to a sport",
+            "remove sport": "unregister user to a sport",
+            "update profile": "update user profile",
             "help": "Show this help"
         }
 

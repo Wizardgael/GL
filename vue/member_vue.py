@@ -48,7 +48,6 @@ class MemberVue:
             s = "No"
             if member['coach']:
                 s = "Yes"
-<<<<<<< HEAD
             c = ""
             if member['coached'].__len__() > 0:
                 c = "sport coached:["
@@ -60,11 +59,6 @@ class MemberVue:
             print("* %s %s (%s)\n\tsport:%s\n\tcoach:%s %s" % (member['firstname'].capitalize(),
                                                   member['lastname'].capitalize(),
                                                   member['email'], member['sports'], s, c))
-=======
-            print("* %s %s (%s) : %s coach:%s admin:%s" % (member['firstname'].capitalize(),
-                                    member['lastname'].capitalize(),
-                                    member['email'], member['sports'], s, member['admin']))
->>>>>>> f59f87cf848b1016a0581de7d9f4365919532b4a
 
 
     def search_member(self):

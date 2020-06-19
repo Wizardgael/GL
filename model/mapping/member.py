@@ -41,13 +41,8 @@ class Member(Base):
             "sports": self.get_sports(),
             "coach": self.coached.__len__() > 0,
             "coached": self.get_coached(),
-<<<<<<< HEAD
             'self': self,
             "admin": self.admin > 0
-=======
-            "admin": self.admin > 0,
-            'self': self
->>>>>>> f59f87cf848b1016a0581de7d9f4365919532b4a
         }
 
     def get_sports(self):
