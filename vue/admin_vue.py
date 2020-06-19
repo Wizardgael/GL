@@ -44,6 +44,7 @@ class AdminVue(MemberVue, Sportvue):
             "update sport": "Update sport",
             "delete sport": "delete sport",
             "user add sport": "add sport to user",
+            "sport add coach": "add sport to user",
             "help": "Show this help"
         }
 

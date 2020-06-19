@@ -75,4 +75,4 @@ class SportController:
         with self._database_engine.new_session() as session:
             sport_dao = SportDAO(session)
             sport = sport_dao.get_by_name(name)
-            return sport
+            return sport.to_dict()

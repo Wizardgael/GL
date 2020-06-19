@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 import uuid
 
 from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Table
-from model.mapping.sport import association_table
+from model.mapping.sport import sport_member, coach_member
 
 class Member(Base):
     __tablename__ = 'members'
@@ -18,8 +18,13 @@ class Member(Base):
 
     sports = relationship(
         "Sport",
-        secondary=association_table,
+        secondary=sport_member,
         back_populates="members")
+
+    coached = relationship(
+        "Sport",
+        secondary=coach_member,
+        back_populates="coachs")
 
     def __repr__(self):
         return "<Member(%s %s)>" % (self.firstname, self.lastname.upper())
@@ -30,7 +35,8 @@ class Member(Base):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "email": self.email,
-            "sports": self.get_sports()
+            "sports": self.get_sports(),
+            "coach": self.coached.__len__() > 0
         }
 
     def get_sports(self):

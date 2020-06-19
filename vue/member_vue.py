@@ -39,9 +39,12 @@ class MemberVue:
 
         print("Members: ")
         for member in members:
-            print("* %s %s (%s) : %s" % (member['firstname'].capitalize(),
+            s = "No"
+            if member['coach']:
+                s = "Yes"
+            print("* %s %s (%s) : %s coach:%s" % (member['firstname'].capitalize(),
                                     member['lastname'].capitalize(),
-                                    member['email'], member['sports']))
+                                    member['email'], member['sports'], s))
 
 
     def search_member(self):
