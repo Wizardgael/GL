@@ -14,6 +14,7 @@ class AdminVue(MemberVue, Sportvue):
     def __init__(self, member_controller, sport_controller):
         MemberVue.__init__(self, member_controller)
         Sportvue.__init__(self, sport_controller)
+        self.member = None
 
     def help(self, commands):
         print()
@@ -29,6 +30,17 @@ class AdminVue(MemberVue, Sportvue):
             command = input('command >').lower().strip()
 
         return command
+
+    def start(self):
+        self.member = self.connexion()
+        if(self.member['admin']):
+            print("admin")
+        else:
+            print("pas admin")
+        return
+
+    def connexion(self):     
+        return self.search_member()
 
     def admin_shell(self):
 
@@ -81,6 +93,45 @@ class AdminVue(MemberVue, Sportvue):
                     self.add_sport_to_member()
                 elif command == 'sport add coach':
                     self.add_coach_to_sport()
+                elif command == 'help':
+                    self.help(commands)
+                else:
+                    print("Unknown command")
+            except ResourceNotFound:
+                self.error_message("Member not found")
+            except InvalidData as e:
+                self.error_message(str(e))
+            except Error as e:
+                self.error_message("An error occurred (%s)" % str(e))
+
+    def user_shell(self):
+
+        commands = {
+            "exit": "Quit the Shell",
+            "profile": "show profile member",
+            "add sport": "List association members",
+            "remove sport": "Show member profile",
+            "update profile": "Delete a member",
+            "help": "Show this help"
+        }
+
+        self.help(commands)
+
+        while True:
+            try:
+                command = self.ask_command(commands)
+                if command == 'exit':
+                    # Exit loop
+                    break
+                elif command == 'profile':
+                    print("truc")
+                elif command == 'add sport':
+                    self.show_members()
+                elif command == 'remove sport':
+                    member = self.search_member()
+                    self.show_member(member)
+                elif command == 'update profile':
+                    self.delete_member()
                 elif command == 'help':
                     self.help(commands)
                 else:
