@@ -52,6 +52,8 @@ class MemberDAO(DAO):
             member.email = data['email']
         if 'sport' in data:
             member.sports.append(data['sport'])
+        if 'coached' in data:
+            member.coached.append(data['coached'])
         try:
             self._database_session.merge(member)
             self._database_session.flush()

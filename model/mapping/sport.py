@@ -42,5 +42,12 @@ class Sport(Base):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "self": self
+            "self": self,
+            "coachs": self.get_coachs()
         }
+
+    def get_coachs(self):
+        l = []
+        for coach in self.coachs:
+            l.append(coach.firstname + " " + coach.lastname)
+        return l

@@ -47,6 +47,6 @@ class Sportvue:
 
         print("Sports: ")
         for sport in sports:
-            print("* %s :%s" % (sport['name'],sport['description']))
+            print("* %s :%s\ncoachs:%s" % (sport['name'],sport['description'], sport['coachs']))
 
     

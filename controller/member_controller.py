@@ -118,6 +118,6 @@ class MemberController:
         data['lastname'] = member['lastname']
         data['email'] = member['email']
         sport = self.sport_controller.search_sport(sport_name)
-        data['sport'] = sport['self']
+        data['coached'] = sport['self']
         self.update_member(member['id'], data)
         return
