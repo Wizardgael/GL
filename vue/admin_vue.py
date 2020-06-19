@@ -79,6 +79,8 @@ class AdminVue(MemberVue, Sportvue):
                     self.show_sports()
                 elif command == 'user add sport':
                     self.add_sport_to_member()
+                elif command == 'sport add coach':
+                    self.add_coach_to_sport()
                 elif command == 'help':
                     self.help(commands)
                 else:

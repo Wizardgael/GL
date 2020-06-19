@@ -72,6 +72,12 @@ class MemberVue:
     
     def add_sport_to_member(self):
         member = self.search_member()
-        sport = self._common.ask_name(key_name="name")
+        sport = self._common.ask_name(key_name="sport name")
         self._member_controller.add_sport(member, sport)
+        return
+
+    def add_coach_to_sport(self):
+        sport = self._common.ask_name(key_name="sport name")
+        member = self.search_member()
+        self._member_controller.add_coach(member, sport)
         return

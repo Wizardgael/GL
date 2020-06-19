@@ -111,3 +111,13 @@ class MemberController:
         data['sport'] = sport['self']
         self.update_member(member['id'], data)
         return
+
+    def add_coach(self, member, sport_name):
+        data = {}
+        data['firstname'] = member['firstname']
+        data['lastname'] = member['lastname']
+        data['email'] = member['email']
+        sport = self.sport_controller.search_sport(sport_name)
+        data['sport'] = sport['self']
+        self.update_member(member['id'], data)
+        return

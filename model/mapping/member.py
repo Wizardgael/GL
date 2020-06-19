@@ -36,11 +36,19 @@ class Member(Base):
             "lastname": self.lastname,
             "email": self.email,
             "sports": self.get_sports(),
-            "coach": self.coached.__len__() > 0
+            "coach": self.coached.__len__() > 0,
+            "coached": self.get_coached(),
+            'self': self
         }
 
     def get_sports(self):
         l = []
         for sport in self.sports:
+            l.append(sport.to_dict()['name'])
+        return l
+    
+    def get_coached(self):
+        l = []
+        for sport in self.coached:
             l.append(sport.to_dict()['name'])
         return l
