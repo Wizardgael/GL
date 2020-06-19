@@ -15,6 +15,7 @@ def main():
     admin_controller = MemberController(database_engine, sport_controller)
     AdminVue(admin_controller, sport_controller).admin_shell()
 
+    
 
 if __name__ == "__main__":
     main()
