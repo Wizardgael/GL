@@ -2,7 +2,7 @@ from model.mapping import Base
 from sqlalchemy.orm import relationship
 import uuid
 
-from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Table
+from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Table, Integer
 from model.mapping.sport import sport_member, coach_member
 
 class Member(Base):
@@ -13,6 +13,8 @@ class Member(Base):
 
     firstname = Column(String(50), nullable=False)
     lastname = Column(String(50), nullable=False)
+    admin= Column(Integer, nullable=False)
+
 
     email = Column(String(256), nullable=False)
 
@@ -38,6 +40,7 @@ class Member(Base):
             "sports": self.get_sports(),
             "coach": self.coached.__len__() > 0,
             "coached": self.get_coached(),
+            "admin": self.admin > 0,
             'self': self
         }
 
